@@ -158,7 +158,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--card2);border:1px 
     <div class="kicker"><div class="badge">02</div><div class="tag">théorie nécessaire</div></div>
     <h2>Les notions à mobiliser</h2>
     <div class="grid"><div class="card"><h3>Le cas de base</h3><p>Une récursion a besoin d'une porte de sortie : 0! et 1! valent 1, donc <code>if (n &lt;= 1) return 1;</code>. Sans ce test, l'appel descend indéfiniment et la pile d'appels déborde.</p></div>
-<div class="card"><h3>La pile d'appels</h3><p><code>fact(20)</code> empile 21 trames, une par valeur de 20 à 0, puis les dépile en multipliant. Le coût est linéaire : n multiplications et n + 1 appels, en O(n) temps comme en O(n) mémoire.</p></div>
+<div class="card"><h3>La pile d'appels</h3><p><code>fact(20)</code> empile 20 trames, une par valeur de 20 à 1 : le cas de base <code>n &lt;= 1</code> s'arrête sur <code>fact(1)</code>. Elles se dépilent ensuite en multipliant. Le coût est linéaire : n − 1 multiplications et n appels, en O(n) temps comme en O(n) mémoire.</p></div>
 <div class="card"><h3>La table précalculée</h3><p>Le préprocesseur ne calcule rien : il substitue <code>#define F5 (F4 * 5ULL)</code>. C'est le compilateur qui évalue les vingt produits une fois pour toutes ; la lecture suivante est un simple accès indexé, en O(1).</p></div></div>
   </section>
 
@@ -257,7 +257,7 @@ unsigned long long factLut(unsigned n)
 <button class="opt" type="button" data-opt="2">20</button>
 <button class="opt" type="button" data-opt="3">21</button>
 </div><div class="fb" hidden></div></div>
-<div class="q" data-answer="2" data-why="Les appels vont de 20 à 0 : 21 trames, celle du cas de base comprise.">
+<div class="q" data-answer="1" data-why="Les appels vont de 20 à 1 : le cas de base n &lt;= 1 s&#x27;arrête sur fact(1), sans appeler fact(0). Soit 20 trames, celle du cas de base comprise.">
 <p class="qq">3. Combien de trames empile factRecursion(20) ?</p><div class="opts">
 <button class="opt" type="button" data-opt="0">19</button>
 <button class="opt" type="button" data-opt="1">20</button>

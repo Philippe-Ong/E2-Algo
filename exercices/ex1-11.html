@@ -243,7 +243,7 @@ void processRectangles(Rectangle_t table[], size_t n)
     }
     sortFct(table, n);        /* ou (*sortFct)(table, n) */
 }</code></pre></div>
-    <table class="tbl"><tr><th>expression</th><th>adresse</th></tr><tr><td><code>table</code> / <code>table[0]</code></td><td>0x61FECC</td></tr><tr><td><code>table[1]</code></td><td>0x61FEE0</td></tr><tr><td><code>table[2]</code></td><td>0x61FEF4</td></tr><tr><td>coin 2 du rectangle 1</td><td>0x61FEE8</td></tr></table><p>Chaque rectangle mesure 20 octets et chaque coin 4 : le coin 2 du rectangle 1 tombe à 0x61FECC + 20 + 8 = 0x61FEE8.</p><p>L'aire du rectangle 1, [0,0] [0,10] [10,10] [10,0], vaut 10 × 10 = 100. Les aires valent 100, 400 et 180 ; après tri : 100, 180, 400, avec les premiers coins [0,0], [0,5], [10,10].</p>
+    <table class="tbl"><tr><th>expression</th><th>adresse</th></tr><tr><td><code>table</code> / <code>table[0]</code></td><td>0x61FECC</td></tr><tr><td><code>table[1]</code></td><td>0x61FEE0</td></tr><tr><td><code>table[2]</code></td><td>0x61FEF4</td></tr><tr><td>coin 2 du rectangle 2 (<code>table[1].corners[2]</code>)</td><td>0x61FEE8</td></tr></table><p>Chaque rectangle mesure 20 octets et chaque coin 4 : le coin 2 du rectangle 2 tombe à 0x61FECC + 20 + 8 = 0x61FEE8.</p><p>L'aire du rectangle 1, [0,0] [0,10] [10,10] [10,0], vaut 10 × 10 = 100. Avec le rectangle 2, [10,10] [10,30] [30,30] [30,10], soit 20 × 20 = 400, et le rectangle 3, [0,5] [0,20] [12,20] [12,5], soit 12 × 15 = 180, les aires valent 100, 400 et 180 ; après tri : 100, 180, 400, avec les premiers coins [0,0], [0,5], [10,10].</p>
     <div class="result"><b>Résultat.</b> sizeof(Point_t) = 4, sizeof(Rectangle_t) = 20, trois rectangles = 60 octets contigus ; aire du rectangle 1 = 100 ; après le tri : [0,0], [0,5], [10,10].</div>
   </section>
 
@@ -253,7 +253,7 @@ void processRectangles(Rectangle_t table[], size_t n)
     <div class="box trap"><div class="lbl">À vérifier</div><ul><li>Le point passe avant l'étoile : écrire (*pRect).area ou pRect->area.</li>
 <li>p + 1 n'ajoute pas un octet mais sizeof(*p), soit 20 pour un Rectangle_t.</li>
 <li>Trier area sans déplacer les coins ; échanger la structure entière.</li>
-<li>f2(true) est un appel, pas une fonction : on affecte f2 ou &f2.</li></ul></div>
+<li>Écrire sortFct = sortByArea(table, n) : c'est un appel, qui ne renvoie rien (void), et gcc refuse ; on affecte sortByArea ou &sortByArea.</li></ul></div>
   </section>
 
   <section>
