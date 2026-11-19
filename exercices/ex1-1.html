@@ -62,6 +62,20 @@ code{font-family:var(--mono);font-size:.92em;background:var(--card2);border:1px 
 .tbl th{font:650 10px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
 .tbl tr:last-child td{border-bottom:0}
 .result{border:1px solid var(--line);background:var(--card2);border-radius:9px;padding:11px 13px;margin:12px 0;font-size:14px}
+.viz{margin:14px 0 4px;border:1px solid var(--line2);background:var(--card);border-radius:10px;padding:12px 13px;overflow-x:auto}
+.viz-title{font:650 10px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.viz-caption{font-size:12px;line-height:1.5;color:var(--muted);margin-top:8px}
+.viz-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:4px 0}
+.viz-node{min-width:54px;border:1px solid var(--line);background:var(--card2);border-radius:8px;padding:7px 9px;text-align:center;font:12px/1.3 var(--mono);color:var(--ink)}
+.viz-node b{display:block;font:9px/1.3 var(--mono);letter-spacing:.04em;color:var(--accent);margin-bottom:2px}
+.viz-arrow{font:14px/1 var(--mono);color:var(--faint);white-space:nowrap}
+.viz-label{font:9.5px/1.4 var(--mono);color:var(--faint);text-align:center}
+.viz-stack{display:flex;flex-direction:column;gap:5px;align-items:center;padding:4px 0}
+.viz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(54px,1fr));gap:5px;padding:4px 0}
+.viz-cell{border:1px solid var(--line2);background:var(--card2);border-radius:6px;padding:6px 5px;text-align:center;font:11px/1.3 var(--mono)}
+.viz-bar{height:10px;border-radius:3px;background:var(--accent);min-width:2px}
+.viz-note{font-size:12px;color:var(--muted);border-left:2px solid var(--accent);padding-left:8px;margin-top:8px}
+.viz svg{display:block;max-width:100%;height:auto;margin:0 auto}
 .qcm{margin-top:12px}
 .q{background:var(--card);border:1px solid var(--line2);border-radius:11px;padding:13px 14px;margin-top:10px}
 .qq{font-weight:600;margin:0 0 9px;font-size:14.5px}
@@ -137,6 +151,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--card2);border:1px 
 <p>d) Avec unsigned char b = 5, short s = 8, int i = 9, float f = 2.5 et double d = 5.2, donner le type et la valeur de d/2, s*4, (b+s) > (5*f), i/4 + d, 1/3 et b&6.</p>
 <p>e) Partir de int j = 7, k = 4 et bool a = true, b = true, puis suivre a, b, j et k après chaque instruction, en explicitant parenthèses, priorité et associativité.</p>
     <table class="tbl"><tr><th>variable</th><th>type</th><th>taille</th><th>valeur</th></tr><tr><td>b</td><td>unsigned char</td><td>8 bits</td><td>5</td></tr><tr><td>s</td><td>short</td><td>16 bits</td><td>8</td></tr><tr><td>i</td><td>int</td><td>32 bits</td><td>9</td></tr><tr><td>f</td><td>float</td><td>32 bits</td><td>2.5</td></tr><tr><td>d</td><td>double</td><td>64 bits</td><td>5.2</td></tr></table>
+    <div class="viz"><div class="viz-title">Six expressions, six types</div><div class='viz-grid' style='display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;font-size:14px'><div class='viz-cell' style='border:1px solid rgba(27,26,23,.18);border-radius:9px;padding:10px 12px;background:#fffdf9;color:#1b1a17'><div style='font-family:ui-monospace,Consolas,monospace;font-size:15px;color:#5146b8'>d/2</div><div style='margin-top:5px'><b>double</b> · 2,6</div></div><div class='viz-cell' style='border:1px solid rgba(27,26,23,.18);border-radius:9px;padding:10px 12px;background:#fffdf9;color:#1b1a17'><div style='font-family:ui-monospace,Consolas,monospace;font-size:15px;color:#5146b8'>s*4</div><div style='margin-top:5px'><b>int</b> · 32</div></div><div class='viz-cell' style='border:1px solid rgba(27,26,23,.18);border-radius:9px;padding:10px 12px;background:#fffdf9;color:#1b1a17'><div style='font-family:ui-monospace,Consolas,monospace;font-size:15px;color:#5146b8'>(b+s) &gt; (5*f)</div><div style='margin-top:5px'><b>int</b> · 1</div></div><div class='viz-cell' style='border:1px solid rgba(27,26,23,.18);border-radius:9px;padding:10px 12px;background:#fffdf9;color:#1b1a17'><div style='font-family:ui-monospace,Consolas,monospace;font-size:15px;color:#5146b8'>i/4 + d</div><div style='margin-top:5px'><b>double</b> · 7,2</div></div><div class='viz-cell' style='border:1px solid rgba(27,26,23,.18);border-radius:9px;padding:10px 12px;background:#fffdf9;color:#1b1a17'><div style='font-family:ui-monospace,Consolas,monospace;font-size:15px;color:#5146b8'>1/3</div><div style='margin-top:5px'><b>int</b> · 0</div></div><div class='viz-cell' style='border:1px solid rgba(27,26,23,.18);border-radius:9px;padding:10px 12px;background:#fffdf9;color:#1b1a17'><div style='font-family:ui-monospace,Consolas,monospace;font-size:15px;color:#5146b8'>b&amp;6</div><div style='margin-top:5px'><b>int</b> · 4</div></div></div><div class='viz-note' style='margin-top:10px;font-size:13px;color:#5d5b54'><b style='color:#5146b8'>int</b> pour tout ce qui reste entier, <b style='color:#0e6b55'>double</b> dès qu'un opérande est réel : <code>char</code> et <code>short</code> sont promus en <code>int</code> avant le calcul.</div><div class="viz-caption">Chaque boîte donne le type puis la valeur de l'expression, avec b = 5, s = 8, i = 9, f = 2.5 et d = 5.2.</div></div>
   </section>
 
   <section>
