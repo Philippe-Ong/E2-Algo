@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Exercice 1.14 — Alerte téléphonique. Théorie, méthode et QCM.">
+<title>Exercice 1.14 — Alerte téléphonique</title>
+<style>
+:root{
+  --bg:#f4f2ec;--card:#fffdf9;--card2:#efede5;--ink:#1b1a17;--muted:#5d5b54;--faint:#8b887e;
+  --line:rgba(27,26,23,.16);--line2:rgba(27,26,23,.08);--accent:#5146b8;--accent-s:#eae8fb;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.05);
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"Cascadia Code","SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#151412;--card:#1e1d1a;--card2:#262420;--ink:#e9e6dd;--muted:#b3afa5;--faint:#8b877c;
+  --line:rgba(255,255,255,.17);--line2:rgba(255,255,255,.075);--accent:#b3abff;--accent-s:#2a2451;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+[hidden]{display:none!important}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 16px;background:var(--card);border-bottom:1px solid var(--line);box-shadow:var(--shadow)}
+.top a{text-decoration:none;font-size:12.5px;color:var(--muted);padding:6px 8px;border-radius:7px;white-space:nowrap}
+.top a:hover{background:var(--card2);color:var(--ink)}
+.top .spacer{flex:1}
+.top .exam{font:650 9.5px/1 var(--mono);letter-spacing:.08em;background:var(--accent-s);color:var(--accent);border-radius:999px;padding:5px 8px}
+.wrap{max-width:860px;margin:0 auto;padding:34px 22px 70px}
+.eyebrow{font:650 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+h1{font-size:clamp(30px,5vw,44px);line-height:1.07;letter-spacing:-.03em;font-weight:680;margin:10px 0 12px}
+.lead{font-size:17px;line-height:1.6;color:var(--muted);margin:0;max-width:65ch}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 10px;font:11.5px/1.4 var(--mono);color:var(--muted)}
+.chip b{color:var(--ink);font-weight:650}
+section{margin-top:34px}
+.kicker{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.badge{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--accent);color:#fff;font:650 10px var(--mono)}
+.tag{font:650 10px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+h2{font-size:clamp(20px,3vw,27px);line-height:1.2;letter-spacing:-.02em;font-weight:650;margin:0 0 8px}
+h3{font-size:15px;font-weight:650;margin:0 0 4px}
+p{margin:0 0 10px}
+ul,ol{margin:8px 0 10px;padding-left:22px}
+li{margin:5px 0}
+code{font-family:var(--mono);font-size:.92em;background:var(--card2);border:1px solid var(--line2);border-radius:5px;padding:1px 5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:10px;margin-top:10px}
+.card{background:var(--card);border:1px solid var(--line2);border-top:3px solid var(--accent);border-radius:11px;padding:13px 14px}
+.card p{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0}
+.box{border-left:3px solid var(--accent);background:var(--card);border-radius:0 10px 10px 0;padding:12px 14px;margin:12px 0;font-size:14px}
+.box.rule{border-left-color:#0e6b55}
+.box.trap{border-left-color:#b33a2b}
+.box .lbl{font:650 9.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.code{margin:12px 0;border-radius:10px;overflow:hidden;background:#1c1c1a;border:1px solid #2d2d29}
+.code header{display:flex;justify-content:space-between;padding:7px 11px;background:#242420;color:#a9a79e;font:10.5px var(--mono)}
+.code pre{margin:0;padding:12px 13px;overflow:auto;color:#e8e5de;font:12.5px/1.7 var(--mono);white-space:pre}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+.tbl th,.tbl td{border-bottom:1px solid var(--line2);padding:7px 8px;text-align:left;vertical-align:top}
+.tbl th{font:650 10px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.tbl tr:last-child td{border-bottom:0}
+.result{border:1px solid var(--line);background:var(--card2);border-radius:9px;padding:11px 13px;margin:12px 0;font-size:14px}
+.qcm{margin-top:12px}
+.q{background:var(--card);border:1px solid var(--line2);border-radius:11px;padding:13px 14px;margin-top:10px}
+.qq{font-weight:600;margin:0 0 9px;font-size:14.5px}
+.opts{display:grid;gap:6px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--card2);color:var(--ink);border-radius:8px;padding:8px 10px;font:13px/1.45 var(--sans);cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.ok{border-color:#0e6b55;background:rgba(14,107,85,.14)}
+.opt.ko{border-color:#b33a2b;background:rgba(179,58,43,.14)}
+.fb{margin-top:9px;font-size:13px;color:var(--muted);border-left:3px solid var(--accent);padding-left:9px}
+.score{font:12px var(--mono);color:var(--faint);margin-top:12px}
+.hero{max-width:860px;margin:0 auto;padding:32px 22px 0}
+.home{max-width:1050px;margin:0 auto;padding:42px 22px 70px}
+.home h1{margin-bottom:8px}
+.group{margin-top:28px}
+.group-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line2);padding-bottom:7px;margin-bottom:11px}
+.group-head h2{font-size:14px;font-weight:650;margin:0}
+.group-head span{font:10.5px var(--mono);color:var(--faint)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:10px}
+.ex-card{display:flex;flex-direction:column;gap:4px;background:var(--card);border:1px solid var(--line2);border-top:3px solid var(--accent);border-radius:11px;padding:13px 14px;text-decoration:none;box-shadow:var(--shadow);transition:transform .14s ease}
+.ex-card:hover{transform:translateY(-2px)}
+.ex-card .num{font:650 10px var(--mono);color:var(--accent)}
+.ex-card h3{font-size:15.5px;margin:1px 0 0}
+.ex-card p{font-size:12.5px;line-height:1.45;color:var(--muted);margin:0;flex:1}
+.ex-card .go{font-size:12px;font-weight:600;color:var(--accent);margin-top:5px}
+@media (max-width:640px){
+  .wrap,.hero{padding:24px 15px 55px}
+  .home{padding:28px 15px 60px}
+  .lead{font-size:15.5px}
+  .cards{grid-template-columns:1fr}
+  .tbl{font-size:12px}
+  .tbl th,.tbl td{padding:5px 4px}
+  .top{gap:6px;padding:8px 10px}
+  .top a{font-size:11.5px}
+  .top .spacer{display:none}
+  .top .exam{margin-left:auto}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<div class="top">
+  <a href="index.html">← Tous les exercices</a>
+  <span class="spacer"></span>
+  <a href="../#/recursivite">Version théorie · Récursivité</a>
+  <span class="exam">TE1</span>
+</div>
+<header class="hero">
+  <div class="eyebrow">E2-ALGO · exercice 1.14 · Chapitre 1</div>
+  <h1>Alerte téléphonique</h1>
+  <p class="lead">Prévenir 15 personnes avec la consigne phoneAlarm et compter les appels.</p>
+  <div class="chips">
+    <span class="chip">exercice <b>1.14</b></span>
+    <span class="chip">récursivité · diviser pour régner · listes · cas de base</span>
+    <span class="chip">théorie : <b>Récursivité</b></span>
+  </div>
+</header>
+<main class="wrap">
+  <section>
+    <div class="kicker"><div class="badge">01</div><div class="tag">énoncé</div></div>
+    <h2>Ce que demande l’exercice</h2>
+    <p>Donald a gagné à la loterie et invite sa famille proche. Les 15 membres partagent l'information avec une liste commune, selon la consigne phoneAlarm (diviser pour régner).</p>
+<p>Consigne : si je n'ai rien à transmettre, je ne fais rien ; sinon je coupe ma liste en deux, j'appelle la première personne de chaque moitié et la charge de transmettre.</p>
+<p>a) Dessiner l'organigramme récursif. b) Dessiner la séquence d'appel pour 15 entrées, puis pour 14.</p>
+<p>c) Implémenter phoneAlarm avec l'extrait : ListRecord_t, cTheList, showCalledPerson.</p>
+<p>La première entrée, Donald, est l'appelant déjà informé.</p>
+    <table class="tbl"><tr><th>entrée</th><th>personne</th><th>téléphone</th></tr><tr><td class="num">1</td><td>Donald Duck</td><td>877-764-2539-0</td></tr><tr><td class="num">2</td><td>Huey Duck</td><td>877-764-2539-1</td></tr><tr><td class="num">3</td><td>Dewey Duck</td><td>877-764-2539-2</td></tr><tr><td class="num">4</td><td>Louie Duck</td><td>877-764-2539-3</td></tr><tr><td class="num">5</td><td>Daisy Duck</td><td>877-764-2538-0</td></tr><tr><td class="num">6</td><td>April Duck</td><td>877-764-2538-1</td></tr><tr><td class="num">7</td><td>May Duck</td><td>877-764-2538-2</td></tr><tr><td class="num">8</td><td>June Duck</td><td>877-764-2538-3</td></tr><tr><td class="num">9</td><td>Scrooge McDuck</td><td>877-764-2537</td></tr><tr><td class="num">10</td><td>Elvira Coot</td><td>877-764-2536</td></tr><tr><td class="num">11</td><td>Gladstone Gander</td><td>877-764-2535</td></tr><tr><td class="num">12</td><td>Gus Goose</td><td>877-764-2534</td></tr><tr><td class="num">13</td><td>Brigitta MacBride</td><td>877-764-2533</td></tr><tr><td class="num">14</td><td>Gyro Gearloose</td><td>877-764-2532-999</td></tr><tr><td class="num">15</td><td>The Beagle Boys</td><td>877-764-2531</td></tr></table>
+  </section>
+
+  <section>
+    <div class="kicker"><div class="badge">02</div><div class="tag">théorie nécessaire</div></div>
+    <h2>Les notions à mobiliser</h2>
+    <div class="grid"><div class="card"><h3>Cas de base</h3><p><code>size &lt;= 1</code> : personne à prévenir, la fonction rend la main ; sans ce test, la récursion ne s'arrête jamais.</p></div>
+<div class="card"><h3>Deux moitiés du reste</h3><p><code>list[0]</code> est l'appelant, <code>list[1..size-1]</code> restent à prévenir : <code>rest = size - 1</code>, <code>half1 = rest / 2</code>, <code>half2 = rest - half1</code>. On appelle <code>list[1]</code> puis <code>list[1 + half1]</code>. La garde <code>half1 &gt; 0</code> évite d'appeler une personne inexistante.</p></div>
+<div class="card"><h3>Chaque personne une seule fois</h3><p>Chaque appel prévient une personne : size − 1 appels. Pour 15 entrées, l'arbre complet (1 + 2 + 4 + 8) donne 14 appels et 3 niveaux ; pour 14 entrées, moitiés 6 + 7 et 13 appels.</p></div>
+<div class="card"><h3>Diviser pour régner</h3><p>Chaque appel confie une liste deux fois plus petite : profondeur ≈ log2(size), 4 niveaux avec Donald, coût O(size).</p></div></div>
+  </section>
+
+  <section>
+    <div class="kicker"><div class="badge">03</div><div class="tag">méthode</div></div>
+    <h2>Comment procéder</h2>
+    <ol><li>L'appelant est list[0] : seuls list[1..size-1] restent à prévenir.</li>
+<li>Écrire le cas de base : size <= 1, return immédiat.</li>
+<li>Calculer rest = size − 1, half1 = rest / 2 et half2 = rest − half1.</li>
+<li>Appeler la première personne de chaque moitié non vide, puis lui confier cette moitié.</li>
+<li>Vérifier le total : size − 1 appels, chacun une seule fois.</li></ol>
+  </section>
+
+  <section>
+    <div class="kicker"><div class="badge">04</div><div class="tag">application</div></div>
+    <h2>Application à l’énoncé</h2>
+    <div class="code"><header><span>exemple.c</span><span>C11</span></header><pre><code>#include "liste-telephonique.h"
+
+/* Ex. 1.14 : list[0] = moi (déjà informé) ;
+   list[1..size-1] = les personnes que je dois prévenir */
+void phoneAlarm(ListRecord_t const list[], size_t size)
+{
+    if (size &lt;= 1u) {          /* personne à prévenir : rien */
+        return;
+    }
+    size_t const rest = size - 1u;     /* ma liste, sans moi */
+    size_t const half1 = rest / 2u;    /* coupée en deux */
+    size_t const half2 = rest - half1;
+    if (half1 &gt; 0u) {
+        showCalledPerson(&amp;list[1]);  /* 1re, moitié 1 ... */
+        phoneAlarm(&amp;list[1], half1); /* ... prévient sa moitié */
+    }
+    showCalledPerson(&amp;list[1u + half1]); /* 1re, moitié 2 */
+    phoneAlarm(&amp;list[1u + half1], half2);
+}</code></pre></div>
+    <p>Pour 15 entrées, le reste vaut 14, coupé en 7 + 7 :</p><table class="tbl"><tr><th>niveau</th><th>appels</th></tr><tr><td class="num">1</td><td>1 → 2, 1 → 9</td></tr><tr><td class="num">2</td><td>2 → 3, 2 → 6, 9 → 10, 9 → 13</td></tr><tr><td class="num">3</td><td>3 → 4, 3 → 5, 6 → 7, 6 → 8, 10 → 11, 10 → 12, 13 → 14, 13 → 15</td></tr></table><p>L'ordre est 2, 3, …, 15 : 14 appels, chacun une seule fois. Avec 14 entrées, le reste vaut 13, coupé en 6 + 7 : 1 appelle 2 puis 8, et la séquence va de 2 à 14, soit 13 appels.</p>
+    <div class="result"><b>Résultat.</b> 15 entrées : 14 appels et 3 niveaux sous Donald ; 14 entrées : 13 appels, moitiés 6 + 7, personne n'est oublié.</div>
+  </section>
+
+  <section>
+    <div class="kicker"><div class="badge">05</div><div class="tag">erreurs fréquentes</div></div>
+    <h2>Les pièges</h2>
+    <div class="box trap"><div class="lbl">À vérifier</div><ul><li>Oublier half1 > 0 : avec un reste de 1, la même personne est appelée deux fois.</li>
+<li>half2 = (size - half1 - 1) / 2 perd des personnes ; half2 = rest - half1.</li>
+<li>14 entrées donnent 13 appels, pas 14 : chaque appel prévient une personne.</li>
+<li>Gyro, 877-764-2532-999, fait 16 caractères dans char[16] : pas de nul final, printf lit au-delà.</li></ul></div>
+  </section>
+
+  <section>
+    <div class="kicker"><div class="badge">06</div><div class="tag">auto-test</div></div>
+    <h2>Trois questions</h2>
+    <div class="qcm" data-qcm>
+<div class="q" data-answer="1" data-why="Chaque personne sauf Donald est appelée une fois : 15 − 1 = 14.">
+<p class="qq">1. Combien d'appels phoneAlarm pour 15 entrées ?</p><div class="opts">
+<button class="opt" type="button" data-opt="0">13</button>
+<button class="opt" type="button" data-opt="1">14</button>
+<button class="opt" type="button" data-opt="2">15</button>
+<button class="opt" type="button" data-opt="3">16</button>
+</div><div class="fb" hidden></div></div>
+<div class="q" data-answer="1" data-why="rest = 13, half1 = 13 / 2 = 6 et half2 = 13 − 6 = 7.">
+<p class="qq">2. Avec 14 entrées, comment se coupe le reste ?</p><div class="opts">
+<button class="opt" type="button" data-opt="0">7 + 7</button>
+<button class="opt" type="button" data-opt="1">6 + 7</button>
+<button class="opt" type="button" data-opt="2">7 + 6</button>
+<button class="opt" type="button" data-opt="3">8 + 5</button>
+</div><div class="fb" hidden></div></div>
+<div class="q" data-answer="1" data-why="size &lt;= 1 est le cas de base : personne à prévenir, return immédiat.">
+<p class="qq">3. Que fait phoneAlarm quand size vaut 1 ?</p><div class="opts">
+<button class="opt" type="button" data-opt="0">elle appelle deux fois list[1]</button>
+<button class="opt" type="button" data-opt="1">elle ne fait rien et rend la main</button>
+<button class="opt" type="button" data-opt="2">elle appelle Donald</button>
+<button class="opt" type="button" data-opt="3">elle boucle sur la liste</button>
+</div><div class="fb" hidden></div></div>
+<div class="score">Score : <b>0</b> / 3</div></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  document.querySelectorAll('[data-qcm]').forEach(function (qcm) {
+    var score = 0, total = 0;
+    qcm.querySelectorAll('.q').forEach(function (q) {
+      total++;
+      var answer = Number(q.getAttribute('data-answer'));
+      var fb = q.querySelector('.fb');
+      q.querySelectorAll('.opt').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (q.getAttribute('data-done')) return;
+          q.setAttribute('data-done', '1');
+          var pick = Number(btn.getAttribute('data-opt'));
+          q.querySelectorAll('.opt').forEach(function (b, i) {
+            b.disabled = true;
+            if (i === answer) b.classList.add('ok');
+            if (i === pick && i !== answer) b.classList.add('ko');
+          });
+          fb.hidden = false;
+          fb.innerHTML = (pick === answer ? '<b>Correct.</b> ' : '<b>À revoir.</b> ') + q.getAttribute('data-why');
+          if (pick === answer) score++;
+          var out = qcm.querySelector('.score b');
+          if (out) out.textContent = score;
+        });
+      });
+    });
+    var out = qcm.querySelector('.score b');
+    if (out) out.textContent = '0';
+  });
+})();
+</script>
+
+</body>
+</html>

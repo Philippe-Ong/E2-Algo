@@ -42,6 +42,8 @@
   .eyebrow{font:650 11px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
   h1{font-size:clamp(32px,5vw,52px);line-height:1.05;letter-spacing:-.03em;font-weight:680;margin:14px 0 8px;max-width:20ch}
   .pitch{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+  .switch{display:inline-flex;align-items:center;margin-left:8px;border:1px solid var(--line);border-radius:999px;padding:5px 10px;font:11px var(--mono);color:var(--accent);text-decoration:none;white-space:nowrap}
+  .switch:hover{background:var(--accent-s)}
   .group{margin-top:30px}
   .group-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line2);padding-bottom:8px;margin-bottom:14px}
   .group-head h2{font-size:15px;font-weight:650;margin:0;letter-spacing:-.01em}
@@ -101,7 +103,7 @@
 <div class="home" id="home">
   <div class="eyebrow">E2-ALGO · révision · HEIA-FR</div>
   <h1>Fiches de révision</h1>
-  <p class="pitch">TE1 · chapitres 1 à 3. Choisis une théorie.</p>
+  <p class="pitch">TE1 · chapitres 1 à 3. Choisis une théorie. <a class="switch" href="exercices/index.html">Version exercices →</a></p>
   <section class="group"><div class="group-head"><h2>Chapitre 1 · TE1</h2><span>7 fiches</span></div><div class="grid">
 
       <a class="card te1" href="#/c-bases" aria-label="Ouvrir Langage C : bases">
