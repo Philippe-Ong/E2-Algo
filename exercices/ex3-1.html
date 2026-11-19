@@ -56,7 +56,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--card2);border:1px 
 .box .lbl{font:650 9.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
 .code{margin:12px 0;border-radius:10px;overflow:hidden;background:#1c1c1a;border:1px solid #2d2d29}
 .code header{display:flex;justify-content:space-between;padding:7px 11px;background:#242420;color:#a9a79e;font:10.5px var(--mono)}
-.code pre{margin:0;padding:12px 13px;overflow:auto;color:#e8e5de;font:12.5px/1.7 var(--mono);white-space:pre}
+.code pre{margin:0;padding:12px 13px;overflow:auto;color:#e8e5de;font:12.5px/1.7 var(--mono);white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;tab-size:4;max-width:100%}
 .tbl{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
 .tbl th,.tbl td{border-bottom:1px solid var(--line2);padding:7px 8px;text-align:left;vertical-align:top}
 .tbl th{font:650 10px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
@@ -97,6 +97,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--card2);border:1px 
   .top a{font-size:11.5px}
   .top .spacer{display:none}
   .top .exam{margin-left:auto}
+  .code pre{font-size:11.5px;line-height:1.65}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.001ms!important}}
 </style>
@@ -164,37 +165,46 @@ typedef struct Data_s {
 
 Data_t* createFIFO(void)
 {
-    return NULL;                 /* file vide : aucun noeud alloue */
+    return NULL;             /* file vide */
 }
 
 bool put(Data_t** ppList, Data_t newElement)
 {
     if (ppList == NULL) { return false; }
+
     Data_t* pNew = (Data_t*)malloc(sizeof(Data_t));
-    if (pNew == NULL) { return false; }   /* file intacte */
+    if (pNew == NULL) { return false; }  /* file intacte */
+
     *pNew = newElement;
-    pNew-&gt;pNext = NULL;                   /* nouveau dernier */
+    pNew-&gt;pNext = NULL;      /* nouveau dernier */
+
     if (*ppList == NULL) {
-        *ppList = pNew;                   /* file vide : tete = queue */
+        *ppList = pNew;      /* file vide : tete = queue */
     } else {
         Data_t* pFlow = *ppList;
-        while (pFlow-&gt;pNext != NULL) { pFlow = pFlow-&gt;pNext; }
-        pFlow-&gt;pNext = pNew;              /* accroche en queue */
+        while (pFlow-&gt;pNext != NULL) {
+            pFlow = pFlow-&gt;pNext;
+        }
+        pFlow-&gt;pNext = pNew; /* accroche en queue */
     }
     return true;
 }
 
 bool get(Data_t** ppList, Data_t* pElement)
 {
-    if (ppList == NULL || pElement == NULL || *ppList == NULL) {
-        return false;                     /* file vide */
+    if (ppList == NULL || pElement == NULL
+        || *ppList == NULL) {
+        return false;        /* file vide */
     }
+
     Data_t* pOld = *ppList;
-    *ppList = pOld-&gt;pNext;                /* la tete avance */
+    *ppList = pOld-&gt;pNext;   /* la tete avance */
+
     pElement-&gt;sensorNumber = pOld-&gt;sensorNumber;
     pElement-&gt;sensorValue  = pOld-&gt;sensorValue;
     pElement-&gt;time         = pOld-&gt;time;
-    pElement-&gt;pNext        = NULL;        /* pas pOld-&gt;pNext */
+    pElement-&gt;pNext        = NULL; /* pas pOld-&gt;pNext */
+
     free(pOld);
     return true;
 }
@@ -204,13 +214,20 @@ int main(void)
     Data_t* pList = createFIFO();
     for (unsigned int i = 0; i &lt; 5; i++) {
         Data_t e = { i, 0.1 * i * i, 100UL + i, NULL };
-        if (!put(&amp;pList, e)) { printf("No more memory\n"); return 1; }
+        if (!put(&amp;pList, e)) {
+            printf("No more memory\n");
+            return 1;
+        }
     }
+
     Data_t out;
     while (get(&amp;pList, &amp;out)) {
-        printf("sensor=%u value=%f time=%lu\n", out.sensorNumber, out.sensorValue, out.time);
+        printf("sensor=%u value=%f time=%lu\n",
+               out.sensorNumber, out.sensorValue, out.time);
     }
-    printf("get sur vide : %s\n", get(&amp;pList, &amp;out) ? "true" : "false");
+
+    printf("get sur vide : %s\n",
+           get(&amp;pList, &amp;out) ? "true" : "false");
     return 0;
 }</code></pre></div>
     <p>Cinq éléments 0 à 4 insérés puis retirés sortent dans l'ordre 0, 1, 2, 3, 4.</p><table class="tbl"><tr><th>opération</th><th>état de la file</th><th>retour</th></tr><tr><td><code>createFIFO()</code></td><td>vide, tête <code>NULL</code></td><td><code>NULL</code></td></tr><tr><td><code>put(&amp;pList, e0)</code></td><td>e0</td><td><code>true</code></td></tr><tr><td><code>put(&amp;pList, e4)</code></td><td>e0 e1 e2 e3 e4</td><td><code>true</code></td></tr><tr><td><code>get(&amp;pList, &amp;out)</code> × 5</td><td>0, 1, 2, 3, 4 puis vide</td><td><code>true</code></td></tr><tr><td><code>get(&amp;pList, &amp;out)</code></td><td>vide</td><td><code>false</code></td></tr></table><p>Après cinq <code>get</code>, la tête vaut <code>NULL</code> et un sixième retourne <code>false</code>. Pour <code>put</code> en O(1), on mémorise <code>pTail</code> : <code>pTail-&gt;pNext = pNew</code> puis <code>pTail = pNew</code>.</p>

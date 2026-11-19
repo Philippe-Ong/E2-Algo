@@ -55,7 +55,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--card2);border:1px 
 .box .lbl{font:650 9.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
 .code{margin:12px 0;border-radius:10px;overflow:hidden;background:#1c1c1a;border:1px solid #2d2d29}
 .code header{display:flex;justify-content:space-between;padding:7px 11px;background:#242420;color:#a9a79e;font:10.5px var(--mono)}
-.code pre{margin:0;padding:12px 13px;overflow:auto;color:#e8e5de;font:12.5px/1.7 var(--mono);white-space:pre}
+.code pre{margin:0;padding:12px 13px;overflow:auto;color:#e8e5de;font:12.5px/1.7 var(--mono);white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;tab-size:4;max-width:100%}
 .tbl{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
 .tbl th,.tbl td{border-bottom:1px solid var(--line2);padding:7px 8px;text-align:left;vertical-align:top}
 .tbl th{font:650 10px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
@@ -96,6 +96,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--card2);border:1px 
   .top a{font-size:11.5px}
   .top .spacer{display:none}
   .top .exam{margin-left:auto}
+  .code pre{font-size:11.5px;line-height:1.65}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.001ms!important}}
 </style>
